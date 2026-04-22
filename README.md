@@ -17,7 +17,6 @@ It also includes a Streamlit front-end that:
 
 ## Project structure
 
-text
 sudoku\_csp\_project/
 ├── app.py
 ├── requirements.txt
@@ -33,7 +32,7 @@ sudoku\_csp\_project/
     └── test\_solver.py
 
 
-## Install(Run through Virtual Env)
+## Install(Virtual Env)
 
 py -3.11 -m venv .venv
 
@@ -43,6 +42,8 @@ python -m pip install --upgrade pip
 
 pip install -r requirements.txt
 
+## Run(After venv folder exists)
+.venv\\Scripts\\activate
 streamlit run app.pyRun
 
 
