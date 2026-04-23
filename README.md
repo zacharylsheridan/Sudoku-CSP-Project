@@ -45,7 +45,7 @@ pip install -r requirements.txt
 ## Run(After venv folder exists)
 .venv\\Scripts\\activate
 
-streamlit run app.pyRun
+streamlit run app.py
 
 
 
