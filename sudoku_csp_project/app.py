@@ -177,12 +177,21 @@ with right:
                 st.markdown("**Performance comparison**")
                 st.dataframe(df, use_container_width=True, hide_index=True)
 
-                chart_metric = st.selectbox(
+                metric_map = {
+                    "Elapsed ms" : "elapsed_ms", 
+                    "Nodes Explored" : "nodes_explored", 
+                    "Backtracks" : "backtracks",
+                    "Assignments" : "assignments",
+                    "Domain Prunes" : "domain_prunes",
+                    "AC3 Revisions" : "ac3_revisions",
+                }
+                chart_metric_label = st.selectbox(
                     "Metric to chart",
-                    ["Elapsed ms", "Nodes Explored", "Backtracks", "Assignments", "Domain Prunes", "AC3 Revisions"],
+                    list(metric_map.keys()),
                     index=0,
                 )
-                fig = px.bar(df, x="configuration", y=chart_metric, color="solved", title=f"Comparison: {chart_metric}")
+                chart_metric = metric_map[chart_metric_label]
+                fig = px.bar(df, x="configuration", y=chart_metric, color="solved", title=f"Comparison: {chart_metric_label}")
                 st.plotly_chart(fig, use_container_width=True)
 
                 st.markdown("**Solved boards**")
