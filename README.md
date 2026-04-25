@@ -40,7 +40,7 @@ py -3.11 -m venv .venv
 
 python -m pip install --upgrade pip
 
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 ## Run(After venv folder exists)
 (IF THE VENV IS NOT OPEN ONLY).venv\\Scripts\\activate
