@@ -32,7 +32,7 @@ sudoku\_csp\_project/
     └── test\_solver.py
 
 
-## Install(Virtual Env)
+## Install INISDE PROJECT FOLDER(Virtual Env)
 
 py -3.11 -m venv .venv
 
