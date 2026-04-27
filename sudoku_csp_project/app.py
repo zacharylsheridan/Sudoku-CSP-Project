@@ -10,6 +10,11 @@ from sudoku.solver import SolveResult, SolverConfig, SudokuSolver
 
 st.set_page_config(page_title="Sudoku CSP Solver", layout="wide")
 
+if "comparison_df" not in st.session_state:
+    st.session_state.comparison_df = None
+if "solved_boards" not in st.session_state:
+    st.session_state.solved_boards = None
+
 def render_board_html(grid, active_cell=None, highlight_type="select"):
     active_style = "#fff3cd" if highlight_type == "select" else "#d1e7dd"
     html = """
@@ -125,6 +130,9 @@ with left:
         default=["Backtracking", "Backtracking + FC + AC-3 + MRV"],
     )
 
+    if preset == "Expert" and "Backtracking" in selected_comparisons:
+        st.warning("⚠️ Plain Backtracking on Expert may take a very long time or appear to hang.")
+
     speed = st.slider("Animation delay (seconds)", min_value=0.0, max_value=0.50, value=0.05, step=0.01)
 
     solve_clicked = st.button("Solve selected configuration", type="primary")
@@ -164,6 +172,7 @@ with right:
             board = parse_puzzle(puzzle_text)
             comparison_rows: List[Dict[str, object]] = []
             solved_boards = {}
+
             with st.spinner("Running selected configurations..."):
                 for label in selected_comparisons:
                     config = compare_options[label]
@@ -173,37 +182,43 @@ with right:
                     solved_boards[label] = result.board.grid
 
             if comparison_rows:
-                df = pd.DataFrame(comparison_rows)
-                st.markdown("**Performance comparison**")
-                st.dataframe(df, use_container_width=True, hide_index=True)
-
-                metric_map = {
-                    "Elapsed ms" : "elapsed_ms", 
-                    "Nodes Explored" : "nodes_explored", 
-                    "Backtracks" : "backtracks",
-                    "Assignments" : "assignments",
-                    "Domain Prunes" : "domain_prunes",
-                    "AC3 Revisions" : "ac3_revisions",
-                }
-                chart_metric_label = st.selectbox(
-                    "Metric to chart",
-                    list(metric_map.keys()),
-                    index=0,
-                )
-                chart_metric = metric_map[chart_metric_label]
-                fig = px.bar(df, x="configuration", y=chart_metric, color="solved", title=f"Comparison: {chart_metric_label}")
-                st.plotly_chart(fig, use_container_width=True)
-
-                st.markdown("**Solved boards**")
-                cols = st.columns(max(1, min(3, len(solved_boards))))
-                for idx, (label, grid) in enumerate(solved_boards.items()):
-                    with cols[idx % len(cols)]:
-                        st.markdown(f"**{label}**")
-                        st.markdown(render_board_html(grid), unsafe_allow_html=True)
+                st.session_state.comparison_df = pd.DataFrame(comparison_rows)
+                st.session_state.solved_boards = solved_boards
             else:
-                st.info("Choose at least one comparison configuration.")
+                st.session_state.comparison_df = None
+                st.session_state.solved_boards = None
+
         except Exception as exc:
             st.error(f"Comparison failed: {exc}")
+
+    if st.session_state.comparison_df is not None:
+        df = st.session_state.comparison_df
+        solved_boards = st.session_state.solved_boards
+
+        st.markdown("**Performance comparison**")
+        st.dataframe(df, use_container_width=True, hide_index=True)
+
+        metric_map = {
+            "Elapsed ms": "elapsed_ms",
+            "Nodes Explored": "nodes_explored",
+            "Backtracks": "backtracks",
+            "Assignments": "assignments",
+            "Domain Prunes": "domain_prunes",
+            "AC3 Revisions": "ac3_revisions",
+        }
+
+        chart_metric_label = st.selectbox("Metric to chart", list(metric_map.keys()), index=0)
+        chart_metric = metric_map[chart_metric_label]
+
+        fig = px.bar(df, x="configuration", y=chart_metric, color="solved", title=f"Comparison: {chart_metric_label}")
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.markdown("**Solved boards**")
+        cols = st.columns(max(1, min(3, len(solved_boards))))
+        for idx, (label, grid) in enumerate(solved_boards.items()):
+            with cols[idx % len(cols)]:
+                st.markdown(f"**{label}**")
+                st.markdown(render_board_html(grid), unsafe_allow_html=True)
 
 st.divider()
 st.markdown(
@@ -214,4 +229,6 @@ st.markdown(
     - AC-3 enforces arc consistency to propagate constraints.
     - MRV picks the most constrained unassigned cell first.
     """
+)
+
 )
