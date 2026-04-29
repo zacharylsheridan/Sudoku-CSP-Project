@@ -1,4 +1,5 @@
 # Sudoku CSP Solver and Visualizer
+![UI](assets/ExampleGraph.png)
 
 This project implements a Sudoku solver using Constraint Satisfaction Problem (CSP) techniques, along with an interactive visualization and performance comparison interface.
 
