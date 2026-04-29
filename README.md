@@ -16,7 +16,11 @@ A Streamlit-based interface allows users to:
 - analyze performance metrics
 
 ---
+## Requirements
 
+- Python 3.11 (recommended)
+- Windows / macOS / Linux
+- Internet connection (for package installation)
 ## Quick Start
 Click the green code button on the top right of the main project page, and click "download ZIP." Then:
 - Extract the contents of the ZIP file to the directory of your choosing
@@ -34,7 +38,7 @@ streamlit run app.py
 ```
 ---
 
-# Project Structure
+## Project Structure
 ```text
 sudoku_csp_project/
 ├── app.py                 # Streamlit UI
@@ -50,7 +54,7 @@ sudoku_csp_project/
 └── tests/
     └── test_solver.py     # Unit tests
 ```
-# Running the Application
+## Running the Application
 - If the virtual environment is not active: 
 
 ```powershell
@@ -134,7 +138,7 @@ Once the app is running (`streamlit run app.py`), follow the steps below.
    - Final solved boards for each configuration are displayed side-by-side
 
 ---
-# Input Format
+## Input Format
 
 Enter a Sudoku puzzle as an 81-character string.
 - Digits 1-9 represent fixed values(filled squares)
@@ -145,14 +149,14 @@ Example:
 530070000600195000098000060800060003400803001700020006060000280000419005000080079
 ```
 ---
-# Expected Output
+## Expected Output
 After running the application:
 - The initial and final Sudoku boards are displayed
 - A metrics table shows solver performance
 - A step-by-step replay animates the solving process
 - A comparison chart appears when multiple configurations are selected
 ---
-# Important Notes
+## Important Notes
 - Plain Backtracking may take a very long time on expert-level puzzles
 - Heuristics (FC, AC-3, MRV) significantly improve performance
 - The comparison panel runs configurations sequentially
