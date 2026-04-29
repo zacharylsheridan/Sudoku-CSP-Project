@@ -18,6 +18,10 @@ A Streamlit-based interface allows users to:
 ---
 
 ## Quick Start
+Click the green code button on the top right of the main project page, and click "download ZIP." Then:
+- Extract the contents of the ZIP file to the directory of your choosing
+- IMPORTANT: The following instructions are for use *inside the project folder*, specifically titled "sudoku_csp_project"
+- The folder that is downloaded from this page is Sudoku-CSP-Project-Main. You MUST extract the project folder first!
 
 From inside the project folder, using your shell:
 
@@ -31,7 +35,7 @@ streamlit run app.py
 ---
 
 # Project Structure
-
+```text
 sudoku_csp_project/
 ├── app.py                 # Streamlit UI
 ├── requirements.txt
@@ -45,7 +49,7 @@ sudoku_csp_project/
 │   └── puzzles.py         # Preset puzzles
 └── tests/
     └── test_solver.py     # Unit tests
-
+```
 # Running the Application
 - If the virtual environment is not active: 
 
